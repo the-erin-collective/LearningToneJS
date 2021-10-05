@@ -77,7 +77,7 @@ console.log(VIChord);
 console.log(IVChord);
 
 
-const synth = new Tone.PolySynth(5, Tone.Synth, {
+const synth = new Tone.PolySynth(Tone.Synth, {
   volume: -5,
   oscillator : {
 		type : "sawtooth"
@@ -120,7 +120,7 @@ VIChord.push('F3', 'E5')
 IVChord.push('D3', 'C5')
 
 
-const mainChordPart = new Tone.PolySynth(5, Tone.Synth, {
+const mainChordPart = new Tone.PolySynth(Tone.Synth, {
   oscillator : {
     count: 6,
     spread: 80,
@@ -149,7 +149,7 @@ const highOctaveChords = [
   {'time': '7:3', 'note': IVChord1, 'duration': '4n'},
 ];
 
-const highSynth  = new Tone.PolySynth(5, Tone.Synth, {
+const highSynth  = new Tone.PolySynth(Tone.Synth, {
   volume: -16,
   count: 6,
   spread: 80,
@@ -292,11 +292,13 @@ const bassPart = new Tone.Part(function(time, note){
 
 
 document.getElementById("play-button").addEventListener("click", function() {
-  if (Tone.Transport.state !== 'started') {
-    Tone.Transport.start();
-  } else {
-    Tone.Transport.stop();
-  }
+  Tone.context.resume().then(() => {
+    if (Tone.Transport.state !== 'started') {
+      Tone.Transport.start();
+    } else {
+      Tone.Transport.stop();
+    }
+  });
 });
 
 
